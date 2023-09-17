@@ -33,6 +33,10 @@ android {
 
 dependencies {
 
+    val work_version = "2.8.1"
+
+    // (Java only)
+    implementation("androidx.work:work-runtime:$work_version")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")

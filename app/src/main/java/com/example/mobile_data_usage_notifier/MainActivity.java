@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.work.Constraints;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -17,18 +21,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_NOTIFICATION_PERMISSION = 155;
     private static final String CHANNEL_ID = "data_usage";
     private static final int NOTIFICATION_ID = 112;
     Button button;
-
+    Button startWorkerButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         button = findViewById(R.id.button);
+        startWorkerButton = findViewById(R.id.startWorkerButton);
+
         if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
             // izin verilmiş
         } else {
@@ -41,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
                 NotificationManagerCompat.from(MainActivity.this).createNotificationChannel(createNotificationChannel());
 
                 sendNotification();
+            }
+        });
+        startWorkerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startWorker();
             }
         });
     }
@@ -94,5 +108,18 @@ public class MainActivity extends AppCompatActivity {
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(NOTIFICATION_ID, builder.build());
+    }
+
+    private void startWorker() {
+        Constraints constraints = new Constraints.Builder()
+                //.setRequiredNetworkType(NetworkType.CONNECTED)
+                .setRequiresCharging(false)
+                .build();
+
+        WorkRequest workRequest = new PeriodicWorkRequest.Builder(MonitoringWorker.class,15, TimeUnit.MINUTES)
+                .setConstraints(constraints)
+                .build();
+
+        WorkManager.getInstance(this).enqueue(workRequest);
     }
 }
