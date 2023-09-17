@@ -32,9 +32,9 @@ public class MonitoringWorker extends Worker {
     @Override
     public Result doWork() {
 
-        for (int i = 1; i <= 50; i++) {
+        for (int i = 1; i <= 900; i++) {
             try {
-                Thread.sleep(10000);
+                Thread.sleep(1000);
                 createNotificationChannel();
                 if (checkNetworkStatus().contains("Mobile Data")) {
                     sendNotification();
