@@ -6,6 +6,9 @@ import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
@@ -29,11 +32,14 @@ public class MonitoringWorker extends Worker {
     @Override
     public Result doWork() {
 
-        for (int i = 1; i <= 100; i++) {
+        for (int i = 1; i <= 50; i++) {
             try {
-                Thread.sleep(7000);
+                Thread.sleep(10000);
                 createNotificationChannel();
-                sendNotification();
+                if (checkNetworkStatus().contains("Mobile Data")) {
+                    sendNotification();
+                }
+
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -67,6 +73,42 @@ public class MonitoringWorker extends Worker {
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(myContext);
         notificationManager.notify(NOTIFICATION_ID, builder.build());
+    }
+
+    private String checkNetworkStatus() {
+        String result = "";
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(myContext.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            Network network = connectivityManager.getActiveNetwork();
+            NetworkCapabilities networkCapabilities =
+                    connectivityManager.getNetworkCapabilities(network);
+
+            if (networkCapabilities != null) {
+                StringBuilder status = new StringBuilder();
+
+                status.append("Network Type: ");
+                if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                    status.append("Wi-Fi");
+                } else if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                    status.append("Mobile Data");
+                } else {
+                    status.append("Other");
+                }
+
+                status.append("\nIs Metered: ");
+                status.append(networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED));
+                result = status.toString();
+                System.out.println(status.toString());
+            } else {
+                result = "Network not available";
+                System.out.println("Network not available");
+            }
+        } else {
+            result = "ConnectivityManager not available";
+            System.out.println("ConnectivityManager not available");
+        }
+        return result;
+
     }
 
 
