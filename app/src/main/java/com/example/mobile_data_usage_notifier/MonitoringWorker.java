@@ -34,6 +34,11 @@ public class MonitoringWorker extends Worker {
 
         for (int i = 1; i <= 900; i++) {
             try {
+                if (isStopped()) {
+                    // İşlem iptal edildi. stopWorker metodu çalıştı.
+                    return Result.failure();
+                }
+
                 Thread.sleep(1000);
                 createNotificationChannel();
                 if (checkNetworkStatus().contains("Mobile Data")) {

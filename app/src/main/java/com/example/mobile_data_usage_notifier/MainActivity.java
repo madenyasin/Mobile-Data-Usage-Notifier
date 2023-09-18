@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     Button button;
     Button startWorkerButton;
     Button stopWorkerButton;
-
+    WorkRequest workRequest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 .setRequiresCharging(false)
                 .build();
 
-        WorkRequest workRequest = new PeriodicWorkRequest.Builder(MonitoringWorker.class,15, TimeUnit.MINUTES)
+        workRequest = new PeriodicWorkRequest.Builder(MonitoringWorker.class,15, TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .build();
 
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void stopWorker() {
-        //...
+        WorkManager.getInstance(this).cancelWorkById(workRequest.getId());
     }
 
 
