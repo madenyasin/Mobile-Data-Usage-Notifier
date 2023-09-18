@@ -30,12 +30,15 @@ public class MainActivity extends AppCompatActivity {
     private static final int NOTIFICATION_ID = 112;
     Button button;
     Button startWorkerButton;
+    Button stopWorkerButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         button = findViewById(R.id.button);
         startWorkerButton = findViewById(R.id.startWorkerButton);
+        stopWorkerButton = findViewById(R.id.stopWorkerButton);
 
         if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
             // izin verilmiş
@@ -55,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startWorker();
+            }
+        });
+        stopWorkerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stopWorker();
             }
         });
     }
@@ -121,6 +130,10 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         WorkManager.getInstance(this).enqueue(workRequest);
+    }
+
+    private void stopWorker() {
+        //...
     }
 
 
