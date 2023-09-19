@@ -7,23 +7,25 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/notificationButton"
+        android:id="@+id/startWorkerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Send Test Notification"
+        android:layout_marginTop="504dp"
+        android:text="Start Worker"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/startWorkerButton"
+        android:id="@+id/notificationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="291dp"
-        android:text="Start Worker"
-        android:textSize="20sp"
+        android:layout_marginTop="640dp"
+        android:text="Send Test Notification"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,10 +33,33 @@
         android:id="@+id/stopWorkerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
         android:text="Stop Worker"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/startWorkerButton"
         app:layout_constraintTop_toBottomOf="@+id/startWorkerButton" />
+
+    <EditText
+        android:id="@+id/phoneNumberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="203dp"
+        android:ems="10"
+        android:hint="phone number:"
+        android:inputType="phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/sendSmsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
+        android:text="Send SMS"
+        app:layout_constraintEnd_toEndOf="@+id/startWorkerButton"
+        app:layout_constraintStart_toStartOf="@+id/startWorkerButton"
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumberText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

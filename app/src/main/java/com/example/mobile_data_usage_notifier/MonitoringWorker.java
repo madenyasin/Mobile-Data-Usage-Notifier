@@ -39,7 +39,7 @@ public class MonitoringWorker extends Worker {
                     return Result.failure();
                 }
 
-                Thread.sleep(1000);
+                Thread.sleep(3000);
                 createNotificationChannel();
                 if (checkNetworkStatus().contains("Mobile Data")) {
                     sendNotification();

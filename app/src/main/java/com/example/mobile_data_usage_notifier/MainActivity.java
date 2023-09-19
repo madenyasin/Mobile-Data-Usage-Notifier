@@ -17,6 +17,7 @@ import android.app.NotificationManager;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -65,6 +66,14 @@ public class MainActivity extends AppCompatActivity {
                 stopWorker();
             }
         });
+        binding.sendSmsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String number = binding.phoneNumberText.getText().toString();
+                sendSms(number, "example");
+            }
+        });
+
     }
 
     private void requestNotificationPermission() {
@@ -131,6 +140,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void stopWorker() {
         WorkManager.getInstance(this).cancelWorkById(workRequest.getId());
+    }
+    public void sendSms(String number, String message) {
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(number, null, message, null, null);
+            Toast.makeText(getApplicationContext(),"Message Sent",Toast.LENGTH_SHORT).show();
+        }catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(),"Message could not be sent",Toast.LENGTH_LONG).show();
+        }
     }
 
 }
