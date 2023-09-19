@@ -21,24 +21,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.mobile_data_usage_notifier.databinding.ActivityMainBinding;
+
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
+    private ActivityMainBinding binding;
 
     private static final int REQUEST_NOTIFICATION_PERMISSION = 155;
     private static final String CHANNEL_ID = "data_usage";
     private static final int NOTIFICATION_ID = 112;
-    Button button;
-    Button startWorkerButton;
-    Button stopWorkerButton;
+
     WorkRequest workRequest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        button = findViewById(R.id.button);
-        startWorkerButton = findViewById(R.id.startWorkerButton);
-        stopWorkerButton = findViewById(R.id.stopWorkerButton);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
         if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
             // izin verilmiş
@@ -46,28 +46,26 @@ public class MainActivity extends AppCompatActivity {
             // izin veilmemiş, izin isteniyor
             requestNotificationPermission();
         }
-        button.setOnClickListener(new View.OnClickListener() {
+        binding.notificationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NotificationManagerCompat.from(MainActivity.this).createNotificationChannel(createNotificationChannel());
-
                 sendNotification();
             }
         });
-        startWorkerButton.setOnClickListener(new View.OnClickListener() {
+        binding.startWorkerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startWorker();
             }
         });
-        stopWorkerButton.setOnClickListener(new View.OnClickListener() {
+        binding.stopWorkerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 stopWorker();
             }
         });
     }
-
 
     private void requestNotificationPermission() {
         if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
@@ -76,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         // izin isteği gönderiliyor
         ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_NOTIFICATION_PERMISSION);
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -135,6 +132,5 @@ public class MainActivity extends AppCompatActivity {
     private void stopWorker() {
         WorkManager.getInstance(this).cancelWorkById(workRequest.getId());
     }
-
 
 }
