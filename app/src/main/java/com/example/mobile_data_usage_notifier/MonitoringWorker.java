@@ -10,6 +10,8 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.Build;
+import android.telephony.SmsManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -32,14 +34,19 @@ public class MonitoringWorker extends Worker {
     @Override
     public Result doWork() {
 
-        for (int i = 1; i <= 900; i++) {
+        for (int i = 1; i <= 90; i++) {
             try {
                 if (isStopped()) {
                     // İşlem iptal edildi. stopWorker metodu çalıştı.
                     return Result.failure();
                 }
+                if (i == 30) { // 5. dakikada sms gönder
+                    Data data = getInputData();
+                    String number = data.getString("phoneNumber");
+                    sendSms(number, "ALERT ~ Mobile data usage alert!");
+                }
 
-                Thread.sleep(3000);
+                Thread.sleep(10 * 1000);
                 createNotificationChannel();
                 if (checkNetworkStatus().contains("Mobile Data")) {
                     sendNotification();
@@ -114,6 +121,16 @@ public class MonitoringWorker extends Worker {
         }
         return result;
 
+    }
+    public void sendSms(String number, String message) {
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(number, null, message, null, null);
+            Toast.makeText(getApplicationContext(),"Message Sent",Toast.LENGTH_SHORT).show();
+        }catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(),"Message could not be sent",Toast.LENGTH_LONG).show();
+        }
     }
 
 

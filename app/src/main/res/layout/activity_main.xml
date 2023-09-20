@@ -60,15 +60,15 @@
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sendSmsButton" />
+        app:layout_constraintTop_toBottomOf="@+id/setPhoneNumberButton" />
 
     <Button
-        android:id="@+id/sendSmsButton"
+        android:id="@+id/setPhoneNumberButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
-        android:layout_marginEnd="22dp"
-        android:text="Send Test SMS"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Set Phone Number"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/phoneNumberText"
         app:layout_constraintTop_toBottomOf="@+id/phoneNumberText" />
@@ -81,8 +81,8 @@
         android:onClick="getSmsPermission"
         android:text="SMS Permission"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/sendSmsButton"
-        app:layout_constraintStart_toStartOf="@+id/sendSmsButton"
+        app:layout_constraintEnd_toEndOf="@+id/setPhoneNumberButton"
+        app:layout_constraintStart_toStartOf="@+id/setPhoneNumberButton"
         app:layout_constraintTop_toTopOf="@+id/textView7" />
 
     <Button

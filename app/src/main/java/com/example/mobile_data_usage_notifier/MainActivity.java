@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.work.Constraints;
+import androidx.work.Data;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_SMS_PERMISSION = 110;
     private static final String CHANNEL_ID = "data_usage";
     private static final int NOTIFICATION_ID = 112;
+    private String number = "";
 
     WorkRequest workRequest;
     @Override
@@ -43,15 +45,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
 
 
-
-
-        //binding.notificationButton.setOnClickListener(new View.OnClickListener() {
-          //  @Override
-           // public void onClick(View view) {
-             //   NotificationManagerCompat.from(MainActivity.this).createNotificationChannel(createNotificationChannel());
-               // sendNotification();
-           // }
-        //});
         binding.startWorkerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,11 +57,10 @@ public class MainActivity extends AppCompatActivity {
                 stopWorker();
             }
         });
-        binding.sendSmsButton.setOnClickListener(new View.OnClickListener() {
+        binding.setPhoneNumberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String number = binding.phoneNumberText.getText().toString();
-                sendSms(number, "example");
+                number = binding.phoneNumberText.getText().toString();
             }
         });
 
@@ -161,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startWorker() {
+        Data data = new Data.Builder().putString("phoneNumber", number).build();
         Constraints constraints = new Constraints.Builder()
                 //.setRequiredNetworkType(NetworkType.CONNECTED)
                 .setRequiresCharging(false)
@@ -168,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
         workRequest = new PeriodicWorkRequest.Builder(MonitoringWorker.class,15, TimeUnit.MINUTES)
                 .setConstraints(constraints)
+                .setInputData(data)
                 .build();
 
         WorkManager.getInstance(this).enqueue(workRequest);
