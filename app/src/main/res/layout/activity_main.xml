@@ -6,60 +6,95 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/startWorkerButton"
+    <EditText
+        android:id="@+id/phoneNumberText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="504dp"
-        android:text="Start Worker"
+        android:layout_marginTop="6dp"
+        android:ems="10"
+        android:hint="phone number:"
+        android:inputType="phone"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/notificationButton"
+        android:id="@+id/startWorkerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="640dp"
-        android:text="Send Test Notification"
+        android:layout_marginTop="28dp"
+        android:text="Start Worker"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
+        android:text="- - - - - - - - - - - - - - - - -"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stopWorkerButton" />
 
     <Button
         android:id="@+id/stopWorkerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="6dp"
         android:text="Stop Worker"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/startWorkerButton"
         app:layout_constraintTop_toBottomOf="@+id/startWorkerButton" />
 
-    <EditText
-        android:id="@+id/phoneNumberText"
+    <TextView
+        android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="203dp"
-        android:ems="10"
-        android:hint="phone number:"
-        android:inputType="phone"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"
+        android:text="- - - - - - - - - - - - - - - - -"
+        android:textSize="34sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/sendSmsButton" />
 
     <Button
         android:id="@+id/sendSmsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
-        android:text="Send SMS"
-        app:layout_constraintEnd_toEndOf="@+id/startWorkerButton"
-        app:layout_constraintStart_toStartOf="@+id/startWorkerButton"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="22dp"
+        android:text="Send Test SMS"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/phoneNumberText"
         app:layout_constraintTop_toBottomOf="@+id/phoneNumberText" />
+
+    <Button
+        android:id="@+id/smsPermissionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="37dp"
+        android:onClick="getSmsPermission"
+        android:text="SMS Permission"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/sendSmsButton"
+        app:layout_constraintStart_toStartOf="@+id/sendSmsButton"
+        app:layout_constraintTop_toTopOf="@+id/textView7" />
+
+    <Button
+        android:id="@+id/notificationPermissionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:onClick="getNotificationPermission"
+        android:text="Notification Permission"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/smsPermissionButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

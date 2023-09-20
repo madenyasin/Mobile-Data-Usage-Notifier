@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
 
     private static final int REQUEST_NOTIFICATION_PERMISSION = 155;
+    private static final int REQUEST_SMS_PERMISSION = 110;
     private static final String CHANNEL_ID = "data_usage";
     private static final int NOTIFICATION_ID = 112;
 
@@ -41,19 +42,16 @@ public class MainActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-            // izin verilmiş
-        } else {
-            // izin veilmemiş, izin isteniyor
-            requestNotificationPermission();
-        }
-        binding.notificationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NotificationManagerCompat.from(MainActivity.this).createNotificationChannel(createNotificationChannel());
-                sendNotification();
-            }
-        });
+
+
+
+        //binding.notificationButton.setOnClickListener(new View.OnClickListener() {
+          //  @Override
+           // public void onClick(View view) {
+             //   NotificationManagerCompat.from(MainActivity.this).createNotificationChannel(createNotificationChannel());
+               // sendNotification();
+           // }
+        //});
         binding.startWorkerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,6 +73,34 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    public void getSmsPermission(View view) {
+        // Check if SEND_SMS permission is granted
+        if (checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+            // Permission is granted
+        } else {
+            // Permission is not granted, request it
+            requestSmsPermission();
+        }
+
+    }
+    public void getNotificationPermission(View view) {
+        if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            // izin verilmiş
+        } else {
+            // izin veilmemiş, izin isteniyor
+            requestNotificationPermission();
+        }
+    }
+
+    private void requestSmsPermission() {
+        if (shouldShowRequestPermissionRationale(Manifest.permission.SEND_SMS)) {
+            // Provide an explanation for why the permission is needed
+            // This is optional and can be omitted if not needed.
+        }
+
+        // Request the SEND_SMS permission
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, REQUEST_SMS_PERMISSION);
+    }
 
     private void requestNotificationPermission() {
         if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
@@ -94,7 +120,16 @@ public class MainActivity extends AppCompatActivity {
                 // izin reddedildi
                 Toast.makeText(this, "Permission denied. You cannot send notifications.", Toast.LENGTH_SHORT).show();
             }
+        } else if (requestCode == REQUEST_SMS_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // izin verildi
+            } else {
+                // izin reddedildi
+                Toast.makeText(this, "Permission denied. You cannot send SMS.", Toast.LENGTH_SHORT).show();
+            }
+
         }
+
     }
 
     private NotificationChannel createNotificationChannel() {
